@@ -2,6 +2,13 @@ provider "aws" {
   region = var.aws_region
 }
 
+locals {
+  tags = {
+    "Created by" = "Terraform"
+    Purpose = "Terraform State Store"
+  }
+}
+
 resource "aws_s3_bucket" "terraform_s3_bucket" {
   bucket = var.bucket_name
   acl    = "private"
@@ -14,13 +21,11 @@ resource "aws_s3_bucket" "terraform_s3_bucket" {
     prevent_destroy = true
   }
 
-  tags = {
-    Name        = "Terraform State Store"
-  }
+  tags = local.tags
 }
 
 resource "aws_dynamodb_table" "terraform_lock_table" {
-  name           = var.table_name
+  name           = "${var.bucket_name}-lock"
   billing_mode   = "PAY_PER_REQUEST"
   hash_key       = "LockID"
 
@@ -38,7 +43,5 @@ resource "aws_dynamodb_table" "terraform_lock_table" {
     prevent_destroy = true
   }
 
-  tags = {
-    Name        = "Terraform State Store"
-  }
+  tags = local.tags
 }
