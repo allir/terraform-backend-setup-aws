@@ -24,7 +24,11 @@ To see what will be created you can run:
 terraform plan -var=account_name=myaccount
 ```
 
-or `terraform plan -var-file=./myvars.tfvars`
+or
+
+```bash
+terraform plan -var-file=./myvars.tfvars
+```
 
 ### Apply
 
@@ -32,6 +36,12 @@ To create the resources run:
 
 ```bash
 terraform apply -var=account_name=myaccount
+```
+
+or
+
+```bash
+terraform apply -var-file=./myvars.tfvars
 ```
 
 ### Generate
