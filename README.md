@@ -7,7 +7,7 @@ Set up S3 bucket and DynamoDB table to use for Terraform State Store and Locking
 There is one required variable, `bucket_name`, that needs to be set. It can be set using `terraform apply -var=account_name=myaccount` or using a `.tfvars` file.
 
 There are a few optional variables, like `aws_region`, `encrypt` and `workspace_key_prefix`.
-An example `.tfvars` file: 
+An example `.tfvars` file:
 
 ```bash
 aws_region = "us-east-1"

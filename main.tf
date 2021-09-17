@@ -9,7 +9,7 @@ locals {
   }
 }
 
-resource "aws_s3_bucket" "terraform_s3_bucket" {
+resource "aws_s3_bucket" "terraform" {
   bucket = var.bucket_name
   acl    = "private"
 
@@ -24,7 +24,17 @@ resource "aws_s3_bucket" "terraform_s3_bucket" {
   tags = local.tags
 }
 
-resource "aws_dynamodb_table" "terraform_lock_table" {
+resource "aws_s3_bucket_public_access_block" "terraform" {
+  bucket = aws_s3_bucket.terraform.id
+
+  block_public_acls       = true
+  ignore_public_acls      = true
+  block_public_policy     = true
+  restrict_public_buckets = true
+  
+}
+
+resource "aws_dynamodb_table" "terraform" {
   name           = "${var.bucket_name}-lock"
   billing_mode   = "PAY_PER_REQUEST"
   hash_key       = "LockID"
