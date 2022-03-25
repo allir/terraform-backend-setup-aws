@@ -1,7 +1,7 @@
 terraform {
   required_providers {
     aws = {
-      version = "~> 3.75"
+      version = ">= 4.0"
       source  = "hashicorp/aws"
     }
   }
@@ -20,17 +20,24 @@ locals {
 
 resource "aws_s3_bucket" "terraform" {
   bucket = var.bucket_name
-  acl    = "private"
-
-  versioning {
-    enabled = true
-  }
 
   lifecycle {
     prevent_destroy = true
   }
 
   tags = local.tags
+}
+
+resource "aws_s3_bucket_acl" "terraform" {
+  bucket = aws_s3_bucket.terraform.id
+  acl    = "private"
+}
+
+resource "aws_s3_bucket_versioning" "terraform" {
+  bucket = aws_s3_bucket.terraform.id
+  versioning_configuration {
+    status = "Enabled"
+  }
 }
 
 resource "aws_s3_bucket_public_access_block" "terraform" {
