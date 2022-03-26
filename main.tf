@@ -51,7 +51,7 @@ resource "aws_s3_bucket_public_access_block" "terraform" {
 }
 
 resource "aws_dynamodb_table" "terraform" {
-  name           = "${var.bucket_name}-lock"
+  name           = "${var.bucket_name}-terraform-lock"
   billing_mode   = "PAY_PER_REQUEST"
   hash_key       = "LockID"
 

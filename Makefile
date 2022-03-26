@@ -8,4 +8,4 @@ endif
 
 
 generate:
-	@echo $(OUTPUT) | tr '\1' '\n' | sed '/= true/! s/= \(.*\)/"\1"/g'
+	@echo $(OUTPUT) | tr '\1' '\n' | sed '/= true/! s/\(= .*\)/"\1"/g'
