@@ -30,6 +30,8 @@ or
 terraform plan -var-file=./myvars.tfvars
 ```
 
+*Note: Terraform variable files `.tfvars` named `terraform.tfvars` or `*.auto.tfvars` are automatically used without using the "-var-file" argument.*
+
 ### Apply
 
 To create the resources run:
@@ -64,16 +66,18 @@ make generate | bpcopy
 
 ### Backup
 
-Since this terraform is meantto be used for the initalization of a backend S3 bucket for (other) terraform we don't expect this state to have a remote backend itself. Therefore it would be a good idea to back up the state manually, we can even copy it to the bucket we just created. But any remote location should be fine.
+Since this terraform is meant to be used for the initalization of a backend S3 bucket for (other) terraform we don't expect this state to have a remote backend itself. Therefore it would be a good idea to back up the state manually, we can even copy it to the bucket we just created. But any remote location should be fine.
 
-Using `awscli` we can copy the state files to the bucket:
+Using `awscli` we can copy the variable and state files to the bucket:
 
 ```bash
+aws s3 cp myvars.tfvars s3://my-terraform-bucket/backup/terraform-backend/
 aws s3 cp terraform.state s3://my-terraform-bucket/backup/terraform-backend/
 ```
 
 To fetch the state at a later time:
 
 ```bash
+aws s3 cp s3://my-terraform-bucket/backup/terraform-backend/myvars.tfvars ./
 aws s3 cp s3://my-terraform-bucket/backup/terraform-backend/terraform.tfstate ./
 ```
