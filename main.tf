@@ -13,7 +13,7 @@ provider "aws" {
 
 locals {
   tags = {
-    "Created by" = "Terraform"
+    Terraform = "This resource was created by Terraform"
     Purpose = "Terraform State Store"
   }
 }
@@ -37,6 +37,16 @@ resource "aws_s3_bucket_versioning" "terraform" {
   bucket = aws_s3_bucket.terraform.id
   versioning_configuration {
     status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "terraform" {
+  bucket = aws_s3_bucket.terraform.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
   }
 }
 
